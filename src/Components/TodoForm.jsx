@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import TodoContext from "../TodoContext";
 import styles from "../App.module.css";
 
-function TodoForm({ onAddTodo, isLoading }) {
+function TodoForm() {
+    const { addTodo, isLoading } = useContext(TodoContext);
     const [newTitle, setNewTitle] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onAddTodo(newTitle);
+        addTodo(newTitle);
         setNewTitle("");
     };
 

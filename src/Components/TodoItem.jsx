@@ -1,13 +1,15 @@
-import { useState } from "react";
-import styles from "../App.module.css";
+import { useContext, useState } from "react";
+import TodoContext from "../TodoContext";
+import styles from "../App.module.css"; // если нужны стили
 
-function TodoItem({ todo, onToggleComplete, onDelete, onEdit }) {
+function TodoItem({ todo }) {
+    const { toggleComplete, deleteTodo, editTodo } = useContext(TodoContext);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(todo.title);
 
     const handleSave = () => {
         if (editedTitle.trim()) {
-            onEdit(todo.id, editedTitle);
+            editTodo(todo.id, editedTitle);
             setIsEditing(false);
         }
     };
@@ -17,7 +19,7 @@ function TodoItem({ todo, onToggleComplete, onDelete, onEdit }) {
             <input
                 type="checkbox"
                 checked={todo.completed}
-                onChange={() => onToggleComplete(todo.id)}
+                onChange={() => toggleComplete(todo.id)}
             />
             {isEditing ? (
                 <div className={styles.editContainer}>
@@ -49,7 +51,7 @@ function TodoItem({ todo, onToggleComplete, onDelete, onEdit }) {
                     </button>
                 )}
                 <button
-                    onClick={() => onDelete(todo.id)}
+                    onClick={() => deleteTodo(todo.id)}
                     className={styles.deleteButton}
                 >
                     Удалить
